@@ -1,0 +1,11 @@
+import turtle
+turtle.penup()
+turtle.goto(-200,0)
+turtle.pendown()
+turtle.pencolor("blue")
+turtle.pensize(20)
+turtle.circle(100)
+turtle.penup()
+turtle.goto(-150,0)
+turtle.pencolor("black")
+turtle.circle(100)
