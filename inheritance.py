@@ -1,3 +1,5 @@
+#####################Exercise 1!###########
+'''
 import turtle
 from turtle import Turtle
 turtle.colormode(255)
@@ -19,4 +21,25 @@ class Square(Turtle):
 s = Square(8,"square")
 s.random_color1()
 turtle.mainloop()
+'''
+##########Exercise 2#################
+import turtle
+class hexagon(Turtle):
+	def __init__(self, shapesize):
+		Turtle.__init__(self)
+		self.shapesize(shapesize)
+	def draw_hexagon(self):
+		turtle.begin_poly()
+		for i in range (6):
+			turtle.forward(10)
+			turtle.left(120)
+		turtle.end_poly()
+
+s = hexagon(5)
+hexagon.draw_hexagon()
+		
+
+turtle.mainloop()
+
+
 
