@@ -21,7 +21,6 @@ class Ball(Turtle):
 		self.penup()
 #moves balls around 
 	def move_ball (self, screen_width, screen_height):
-		#turtle.screensize(screen_width, screen_hight)
 		current_x = self.xcor()
 		new_x = current_x + self.dx
 		current_y = self.ycor()
@@ -45,10 +44,3 @@ class Ball(Turtle):
 		if bottom_side_ball < -screen_height: 
 			self.dy = -1 * self.dy 
 			self.goto(new_x,new_y)       
-'''
-ball1 = Ball(0,0,1,1,10)
-
-while True:
-
-	ball1.move_ball(screen_width, screen_hight)
- ''' 

@@ -10,7 +10,7 @@ from CS_final_project import Ball
 # 1. fix the problems at the bottom of this code. -DONE!                                             #
 # 2. fix the if in the balls creating part.       -DONE!                                             #
 # 3. finish the mandatory part 6.                 -DONE!                                             #
-# 4. add some upgrades! =======> such as score, titles, backgound, players, time, levels and more!:) #
+# 4. add some upgrades! =======> such as score, players and more!:) #
 # 5. delete irrelevant code lines and comments.                                                      #
 ######################################################################################################
 turtle.tracer(0)
@@ -43,6 +43,7 @@ num_level = Level
 MAX_new_ball_count = 3
 BALLS = []
 
+
 MY_BALL = Ball(-100,-150,1,1,30,"red")
 
 ####################PART 0########################
@@ -53,8 +54,8 @@ def init_level(Level):
 	global NUMBER_OF_BIG_BALLS
 	global NUMBER_OF_SMALL_BALLS
 	global MAX_new_ball_count
+	turtle.bgcolor("lavender")
 	if Level > 1:
-		
 		MY_BALL.goto(MY_BALL.x,MY_BALL.y)
 		MAXIMUM_BALL_DX += 1
 		MAXIMUM_BALL_DY += 1
@@ -94,7 +95,6 @@ def ball_add():
 	global Level
 	global new_ball_count
 	new_ball_count = new_ball_count + 1
-	print (new_ball_count)
 	if new_ball_count <= MAX_new_ball_count:
 		color_2 = (random.random(), random.random(), random.random())
 		dx = random.randint(MINIMUM_BALL_DX, MAXIMUM_BALL_DX)/10
@@ -131,7 +131,6 @@ def check_all_balls_collision():
 				ball_a_radius = ball_a.radius
 				ball_b_radius = ball_b.radius
 
-			
 ############PART 4##################################
 def check_myball_collision():
 	global Player_lost
@@ -167,6 +166,11 @@ def check_myball_collision():
 
 #########PART 5##################################
 def move_around(event):
+	'''
+	x = event.x - SCREEN_WIDTH
+	y = SCREEN_HEIGHT - event.y
+	MY_BALL.setpos(x,y)
+	'''
 	x_list = [event.x - (SCREEN_WIDTH),-SCREEN_WIDTH, SCREEN_WIDTH]
 	x_list.sort()
 	MY_BALL.x = x_list[1]
@@ -175,26 +179,34 @@ def move_around(event):
 	y_list.sort()
 	MY_BALL.y = y_list[1]
 
-turtle.listen()
 turtle.getcanvas().bind("<Motion>", move_around)
+turtle.listen()
 
 def winning_banner():
-	print("you won")
-	time.sleep(3)
-	MY_BALL.radius = 15
-	MY_BALL.shapesize(MY_BALL.radius/10)
+	global Level
+	if Level == 4:
+		turtle.write("YOU WON!!!", align = ("center"), font = ("Arial", 50, "bold"))
+		for i in range(15):
+			time.sleep(0.1)
+			turtle.bgcolor(random.random(),random.random(),random.random())
+	else:
+		turtle.write("Level up!", align = ("center"), font = ("Arial", 50, "bold"))
+		print("you won")
+		time.sleep(3)
+		turtle.clear()
+		MY_BALL.radius = 15
+		MY_BALL.shapesize(MY_BALL.radius/10)
 def loosing_banner():
+	turtle.write("YOU LOST! :(", align = ("center"), font = ("Arial", 50, "bold"))
 	print("you lost")
 	time.sleep(3)
 
-
-#balls_creating()
 def RUN_GAME():
 	global Level
 	global MAX_LEVELS
 	global RUNING
 	while ((Level < MAX_LEVELS) and RUNING):
-		print(Level)
+		print(Level)#==================================>LEVEL!
 		init_level(Level)
 		
 		while RUNING:
@@ -206,8 +218,6 @@ def RUN_GAME():
 				winning_banner()
 				Level += 1
 				break
-				#init_level(Level)
-				
 			if Player_lost == True:
 				loosing_banner()
 				quit()
@@ -218,7 +228,3 @@ RUN_COUNT = 0
 while RUN_COUNT < MAX_LEVELS:
 	RUN_COUNT += 1
 	RUN_GAME()
-
-
-
-
