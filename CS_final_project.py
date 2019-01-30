@@ -12,6 +12,8 @@ class Ball(Turtle):
 		Turtle.__init__(self)
 		self.x = x
 		self.y = y
+		self.penup()
+		self.goto(x,y)
 		self.dx = dx
 		self.dy = dy
 		self.shape("circle")

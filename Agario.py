@@ -4,18 +4,13 @@ import random
 import math
 import CS_final_project
 from CS_final_project import Ball
+import pygame
 
-###################################################################################################### 
-# things to do:                                                                                      #
-# 1. fix the problems at the bottom of this code. -DONE!                                             #
-# 2. fix the if in the balls creating part.       -DONE!                                             #
-# 3. finish the mandatory part 6.                 -DONE!                                             #
-# 4. add some upgrades! =======> such as score, players and more!:) #
-# 5. delete irrelevant code lines and comments.                                                      #
-######################################################################################################
+
 turtle.tracer(0)
 turtle.hideturtle()
 Level = 1
+SCORE = 0
 RUNING = True
 MAX_LEVELS = 5
 SLEEP = 0.0077
@@ -43,7 +38,8 @@ num_level = Level
 MAX_new_ball_count = 3
 BALLS = []
 
-
+#turtle.register_shape("fish.gif")
+#turtle.bgpic("original.gif")
 MY_BALL = Ball(-100,-150,1,1,30,"red")
 
 ####################PART 0########################
@@ -54,7 +50,7 @@ def init_level(Level):
 	global NUMBER_OF_BIG_BALLS
 	global NUMBER_OF_SMALL_BALLS
 	global MAX_new_ball_count
-	turtle.bgcolor("lavender")
+	turtle.bgcolor("pink")
 	if Level > 1:
 		MY_BALL.goto(MY_BALL.x,MY_BALL.y)
 		MAXIMUM_BALL_DX += 1
@@ -68,25 +64,29 @@ def init_level(Level):
 def balls_creating():
 	for i in range (NUMBER_OF_BIG_BALLS): #==========> Creates big balls according to the variable 'NUMBER OF BIG BALLS'
 		##============>Large ball varoables
+
 		x = random.randint(-SCREEN_WIDTH + MAXIMUM_BALL_RADIUS,SCREEN_WIDTH - MAXIMUM_BALL_RADIUS)
 		y = random.randint(-SCREEN_HEIGHT + MAXIMUM_BALL_RADIUS, SCREEN_HEIGHT - MAXIMUM_BALL_RADIUS)
 		dx =random.randint(MINIMUM_BALL_DX , MAXIMUM_BALL_DX)/10
 		dy =random.randint(MINIMUM_BALL_DY, MAXIMUM_BALL_DY)/10
 		radius = random.randint(MINIMUM_BALL_RADIUS, MAXIMUM_BALL_RADIUS)
 		color = (random.random(), random.random(), random.random())
-		big_ball = Ball(x, y, dx, dy, radius, color)
+		big_ball = Ball(0, 0, dx, dy, radius, color)
+		#big_ball.shape("fish.gif")
 		BALLS.append(big_ball)
 		big_ball.move_ball(250,250)
 	for i in range (NUMBER_OF_SMALL_BALLS):	
 		##===========>Small ball variables
-		X_coordinate = random.randint(-200, 200)
-		Y_coordinate = random.randint(-200, 200)
+		X_coordinate = 0
+		Y_coordinate = 0
 		radius_small = random.randint(10,20)
 		color = (random.random(), random.random(), random.random())
 		X_axis_speed = random.randint(MINIMUM_BALL_DX, MAXIMUM_BALL_DX)/10
 		Y_axis_speed = random.randint(MINIMUM_BALL_DY, MAXIMUM_BALL_DY)/10
 		small_ball = Ball(X_coordinate, Y_coordinate, X_axis_speed, Y_axis_speed, radius_small, color)
+		#small_ball.shape("fish.gif")
 		BALLS.append(small_ball)
+
 
 	turtle.update()
 
@@ -133,6 +133,7 @@ def check_all_balls_collision():
 
 ############PART 4##################################
 def check_myball_collision():
+	global SCORE
 	global Player_lost
 	global MY_BALL
 	count = 0
@@ -152,6 +153,7 @@ def check_myball_collision():
 			
 			BALLS.remove(ball)
 			ball.hideturtle()
+			score_update()
 			ball_add()
 			
 			turtle.update()
@@ -166,10 +168,11 @@ def check_myball_collision():
 
 #########PART 5##################################
 def move_around(event):
-	'''
+	global SCREEN_WIDTH
+	global SCREEN_HEIGHT
 	x = event.x - SCREEN_WIDTH
 	y = SCREEN_HEIGHT - event.y
-	MY_BALL.setpos(x,y)
+	MY_BALL.goto(x,y)
 	'''
 	x_list = [event.x - (SCREEN_WIDTH),-SCREEN_WIDTH, SCREEN_WIDTH]
 	x_list.sort()
@@ -178,13 +181,28 @@ def move_around(event):
 	y_list = [-event.y + SCREEN_HEIGHT, SCREEN_HEIGHT, -SCREEN_HEIGHT]
 	y_list.sort()
 	MY_BALL.y = y_list[1]
-
+	'''
 turtle.getcanvas().bind("<Motion>", move_around)
 turtle.listen()
+def score_update():
+	global SCORE
+	turtle.hideturtle()
+	turtle.penup()
+	SCORE += 10
+	turtle.clear()
+	turtle.goto(-400,300)
+	turtle.color("black")
+	turtle.write("Score: " + str(SCORE), font = ("Arial", 30, "bold"))
+	
+
 
 def winning_banner():
+	turtle.clear()
+	turtle.goto(0,0)
 	global Level
 	if Level == 4:
+
+		turtle.goto(0,0)
 		turtle.write("YOU WON!!!", align = ("center"), font = ("Arial", 50, "bold"))
 		for i in range(15):
 			time.sleep(0.1)
@@ -192,26 +210,29 @@ def winning_banner():
 	else:
 		turtle.write("Level up!", align = ("center"), font = ("Arial", 50, "bold"))
 		print("you won")
-		time.sleep(3)
+		time.sleep(3) 
 		turtle.clear()
 		MY_BALL.radius = 15
 		MY_BALL.shapesize(MY_BALL.radius/10)
 def loosing_banner():
+	turtle.clear()
+	turtle.goto(0,0)
 	turtle.write("YOU LOST! :(", align = ("center"), font = ("Arial", 50, "bold"))
 	print("you lost")
-	time.sleep(3)
+	time.sleep(1)
 
 def RUN_GAME():
 	global Level
 	global MAX_LEVELS
 	global RUNING
 	while ((Level < MAX_LEVELS) and RUNING):
-		print(Level)#==================================>LEVEL!
+		print(Level)
 		init_level(Level)
-		
+
 		while RUNING:
+			SCREEN_WIDTH = turtle.getcanvas().winfo_width()/2
+			SCREEN_HEIGHT = turtle.getcanvas().winfo_height()/2
 			move_all_balls()
-			MY_BALL.goto(MY_BALL.x,MY_BALL.y)
 			check_all_balls_collision()
 			check_myball_collision()
 			if len(BALLS) == 0:
@@ -223,8 +244,12 @@ def RUN_GAME():
 				quit()
 
 			turtle.update()
+	
 
 RUN_COUNT = 0
 while RUN_COUNT < MAX_LEVELS:
+	pygame.init()
+	pygame.mixer.music.load("mysound.mp3")
+	pygame.mixer.music.play()
 	RUN_COUNT += 1
 	RUN_GAME()
