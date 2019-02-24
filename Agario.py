@@ -243,7 +243,7 @@ def RUN_GAME():
 				loosing_banner()
 				quit()
 
-			turtle.update()
+			#turtle.update()
 	
 
 RUN_COUNT = 0
