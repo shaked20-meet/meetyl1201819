@@ -119,7 +119,7 @@ class obsitcles(Turtle):
 		self.height = 20
 		self.x = x
 		self.y = random.randint((-200 + 70),(SCREEN_HEIGHT - 150))
-		self.dx = random.randint(1,3)/10
+		self.dx = random.randint(1,2)/10
 		self.shape("square")
 		self.resizemode("user")
 		self.shapesize(1, 4)
@@ -170,14 +170,7 @@ class spikes(Turtle):
 		self.goto(self.x,self.y)
 		self.showturtle()
 
-'''
-def move_spikes():
-	global count
-	for spike in (SPIKES_LIST):
-		new_x = random.randint(-SCREEN_HEIGHT, SCREEN_HEIGHT)
-		spike.goto(new_x, spike.ycor())
-		break	
-'''
+
 def make_spikes(SPIKES_LIST):
 	new_spike = spikes()
 	for spike in (SPIKES_LIST):
@@ -252,7 +245,7 @@ def winning_banner():
 	print("You won! Well done!!!")
 	time.sleep(3) 
 	turtle.clear()
-	quit()
+	quit()#=============================================================> first quit!
 
 def check_player_lost():
 	global player_lost
@@ -265,7 +258,7 @@ def check_player_lost():
 			turtle.write("You lost", align = ("center"), font = ("Arial", 50, "bold"))
 			time.sleep(3)
 			print("YOU LOST")
-			quit()
+			quit()#======================================================>second one!
 
 s = turtle.getscreen()
 
